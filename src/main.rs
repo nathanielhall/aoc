@@ -1,21 +1,41 @@
 // Advent of Code
 use std::env;
+use crate::day1::Day1;
 mod day1;
+use crate::day2::Day2;
+mod day2;
+mod command;
+pub use crate::command::Command;
+
+struct Director {
+	commands: Vec<Box<dyn Command>>
+}
+
+impl Director {
+	fn new() -> Self {
+		Self { commands: vec![] }
+	}
+	fn add(&mut self, cmd: Box<dyn Command>) {
+		self.commands.push(cmd);
+	}
+    fn execute(&self, day:i32) {
+		// TODO: if no found, print msg!
+        self.commands.iter().filter(|cmd| cmd.get_day() == day).map(|cmd| cmd.execute()).collect()
+    }
+}
 
 fn main() {
-	let args: Vec<String> = env::args().collect();
-	let config = parse_config(&args);
+  let args: Vec<String> = env::args().collect();
+  let config = parse_config(&args);
 
-	// TODO: Need a way to reuse logic and simplify each aoc challenge
-	// look into using a command pattern that executes a command/day by cli arg
-	// https://rust-unofficial.github.io/patterns/patterns/behavioural/command.html
+  let mut director = Director::new();
+  let cmd = Box::new(Day1);
+  director.add(cmd);
 
-	if config.day == 1 {
-		// open file for this day, send to execute?
-		day1::execute(config.day);
-	} else {
-		println!("This day is not yet available")
-	}
+  let cmd = Box::new(Day2);
+  director.add(cmd);
+
+  director.execute(config.day); // execute all commands
 }
 
 struct Config {
@@ -23,7 +43,6 @@ struct Config {
 }
 
 fn parse_config(args: &[String]) -> Config {
-	// let day = args[1].clone();
 	let day: i32 = args[1].clone().parse::<i32>().unwrap();
 	Config { day }
 }
