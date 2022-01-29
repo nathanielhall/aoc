@@ -1,16 +1,30 @@
-
 pub use crate::command::Command;
-
 
 pub struct Day1;
 impl Command for Day1 {
-	fn get_day(&self) -> i32 {
-		1
-	}
-	fn execute(&self) {
-		println!("Day 1 code here");
-	}
+    fn get_day(&self) -> i32 {
+        1
+    }
+    fn execute(&self) {
+        run();
+    }
 }
+fn run() {
+    let input = include_str!("input.day1.txt");
+
+    let nums: Vec<u16> = input
+        .lines()
+        .map(|line| line.parse::<u16>().unwrap())
+        .collect();
+
+    for i in nums.iter() {
+        println!("Numbers {}", i)
+    }
+
+    //.filter(|[a, b]| b > a)
+}
+
+// use crate::stdx::IterExt;
 // Advent of code:: Day 1
 // https://adventofcode.com/2021/day/1
 // use std::env;
@@ -18,6 +32,9 @@ impl Command for Day1 {
 // use std::io::{self, BufRead};
 // use std::path::Path;
 
+// use std::slice::{ArrayWindows};
+// #![feature(array_windows)]
+//
 // pub fn execute(day: i32) {
 //     // let args: Vec<String> = env::args().collect();
 //     // let config = parse_config(&args);
