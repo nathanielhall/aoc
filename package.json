@@ -1,0 +1,13 @@
+{
+  "name": "aoc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:nathanielhall/aoc.git",
+  "author": "Nathaniel C. Hall <nathaniel.hall@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "event-stream": "^4.0.1",
+    "immutable-ext": "^1.1.5",
+    "ramda": "^0.28.0"
+  }
+}
