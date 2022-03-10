@@ -1,3 +1,7 @@
+#![feature(array_windows)]
+#![feature(array_from_fn)]
+#![feature(slice_group_by)]
+
 // Advent of Code
 use crate::day1::Day1;
 use std::env;
@@ -6,6 +10,8 @@ use crate::day2::Day2;
 mod command;
 mod day2;
 pub use crate::command::Command;
+
+pub(crate) mod stdx;
 
 struct Director {
     commands: Vec<Box<dyn Command>>,
