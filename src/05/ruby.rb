@@ -18,8 +18,9 @@ def get_results
 		results.push(seatId)
 	end
 
-	total = results.max
-	puts total
+	total = results
+	total = total.sort
+    puts total
 end
 
 get_results
