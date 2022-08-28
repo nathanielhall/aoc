@@ -7,7 +7,7 @@ impl Command for Day1 {
         1
     }
     fn execute(&self) {
-        let input = include_str!("input.day1.test.txt");
+        let input = include_str!("input.day1.txt");
 
         let count = part1(&input);
         println!("Part 1: {:?}", count);
