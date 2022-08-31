@@ -1,11 +1,10 @@
-pub use crate::command::Command;
+#![feature(array_windows)]
+#![feature(array_from_fn)]
+#![feature(slice_group_by)]
 
-pub struct Day2;
-impl Command for Day2 {
-	fn get_day(&self) -> i32 {
-		2
-	}
-	fn execute(&self) {
+pub(crate) mod stdx;
+
+fn main() {
 		println!("Day 2 code here");
 
         let input = include_str!("input.day2.txt");
@@ -22,8 +21,8 @@ impl Command for Day2 {
 		});
 
 		println!("{:?}", result);
-	}
 }
+
 
 
 #[derive(Debug)]
