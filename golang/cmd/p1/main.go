@@ -8,20 +8,23 @@ import (
 )
 
 type Command interface {
-  execute(amount int) (int, int)
+	execute(amount int) (int, int)
 }
 
-type UpCommand struct {}
+type UpCommand struct{}
+
 func (p *UpCommand) execute(amount int) (int, int) {
 	return 0, -amount
 }
 
-type DownCommand struct {}
+type DownCommand struct{}
+
 func (p *DownCommand) execute(amount int) (int, int) {
 	return 0, amount
 }
 
-type ForwardCommand struct {}
+type ForwardCommand struct{}
+
 func (p *ForwardCommand) execute(amount int) (int, int) {
 	return amount, 0
 }
@@ -31,25 +34,25 @@ func main() {
 	lines := strings.Split(input, "\n")
 
 	commands := map[string]Command{
-		"up": &UpCommand{},
-		"down": &DownCommand{},
+		"up":      &UpCommand{},
+		"down":    &DownCommand{},
 		"forward": &ForwardCommand{},
 	}
 
-	 for _, line := range lines {
+	for _, line := range lines {
 		parts := strings.Split(line, " ")
 		amount, err := strconv.Atoi(parts[1])
 		if err != nil {
 			log.Fatal("Error")
 		}
 		name := parts[0]
-	    if command := commands[name]; command == nil {
+		if command := commands[name]; command == nil {
 			fmt.Println("No command found for this name")
 		} else {
-		  x, y := command.execute(amount)
-		  fmt.Printf("%s - %d, %d \n", name, x, y)
+			x, y := command.execute(amount)
+			fmt.Printf("%s - %d, %d \n", name, x, y)
 		}
-	 }
+	}
 
 }
 
