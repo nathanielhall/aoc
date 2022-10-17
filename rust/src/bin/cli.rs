@@ -1,7 +1,7 @@
 use std::env;
+use std::error::Error;
 use std::fs;
 use std::process;
-use std::error::Error;  
 
 fn main() {
     let args: Vec<String> = env::args().collect();
