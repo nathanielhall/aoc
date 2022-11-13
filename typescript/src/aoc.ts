@@ -3,7 +3,7 @@
  *
  * Start a challenge
  * @example
- * deno run --allow-net ./src/utils --day 1
+ * deno run --allow-net --allow-read --allow-write --allow-env ./src/aoc.ts --day 3 --year 2020
  *****************************************************************/
 import { configSync } from "https://deno.land/std/dotenv/mod.ts";
 import { ensureDir } from "https://deno.land/std/fs/mod.ts";
