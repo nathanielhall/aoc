@@ -1,7 +1,7 @@
 /*****************************************************************
- * Advent of Code utilities
+ * Advent of Code setup utility
  *
- * Start a challenge
+ * Pull down the puzzle input and scaffold out files/folders
  * @example
  * deno run --allow-net --allow-read --allow-write --allow-env ./src/aoc.ts --day 3 --year 2020
  *****************************************************************/
