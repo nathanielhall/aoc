@@ -1,9 +1,19 @@
-// import data from "./input.txt";
-// import {} from "./utils"
+// import { readLines } from "../../utils.ts";
 
-const challenge = () => {
-  // read the input data
-  // parse data
-  // validate
-  return null;
+const example: () => string = () => {
+  return (
+    `
+	line 1
+	line 2
+	`
+  );
 };
+
+async function run() {
+  // const text = await Deno.readTextFile("./input.txt");
+  const text = example();
+
+  //   const structure = readLines(text);
+}
+
+run();
