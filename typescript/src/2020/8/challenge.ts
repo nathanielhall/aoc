@@ -21,11 +21,8 @@ async function part1() {
 
   const program = readLines(text).extract();
 
-  console.log("program", program);
-
   const p = new Program(program, [new None(), new Jump(), new Accumulate()]);
   p.run();
-
   console.log("Program Results", { heap: p.heap });
 }
 
@@ -36,11 +33,18 @@ class Program {
   callstack: Array<Instruction> = [];
   callstackHead = 0;
 
-  constructor(program: string[], private operations: IOperation[]) {
+  constructor(program: string[], private operations: Operation[]) {
     this.callstack = program.map((line) => {
       const [operation, argument] = line.split(" ");
       return [operation, parseInt(argument), false];
     });
+  }
+
+  setHead(arg: number) {
+    const [key, value] = this.callstack[this.callstackHead];
+    this.callstack[this.callstackHead] = [key, value, true];
+
+    this.callstackHead += arg;
   }
 
   run() {
@@ -62,57 +66,38 @@ class Program {
         );
       }
 
+      // Sure, this could have been a simple condition as opposed to various operation implementations.
+      // this would help for cases where a large number of operations exist
       operation.execute(this, argument);
     }
   }
 }
 
-// public abstract Operation
-//  visited
-// incrementHead
-// accumulate
-// log
-
-interface IOperation {
+interface Operation {
   name: string;
   execute(program: Program, arg: number): void;
 }
 
-class None implements IOperation {
+class None implements Operation {
   name = "nop";
 
   public execute(program: Program) {
-    console.log(`Nothing, then go next`, program.heap, program.callstackHead);
-
-    const [key, value] = program.callstack[program.callstackHead];
-    program.callstack[program.callstackHead] = [key, value, true];
-
-    program.callstackHead += 1;
+    program.setHead(1);
   }
 }
-class Jump implements IOperation {
+class Jump implements Operation {
   name = "jmp";
 
   execute(program: Program, arg: number) {
-    console.log(`Jump`, arg, program.heap, program.callstackHead);
-
-    const [key, value] = program.callstack[program.callstackHead];
-    program.callstack[program.callstackHead] = [key, value, true];
-
-    program.callstackHead += arg;
+    program.setHead(arg);
   }
 }
-class Accumulate implements IOperation {
+class Accumulate implements Operation {
   name = "acc";
 
   execute(program: Program, arg: number) {
-    console.log(`Accumulate`, arg, program.heap, program.callstackHead);
-
-    const [key, value] = program.callstack[program.callstackHead];
-    program.callstack[program.callstackHead] = [key, value, true];
-
     program.heap += arg;
-    program.callstackHead += 1;
+    program.setHead(1);
   }
 }
 
