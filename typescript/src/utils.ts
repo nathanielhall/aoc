@@ -7,7 +7,8 @@ export const readLines = (data: string) => {
   const l = data.split(/\r?\n/);
   return (
     {
-      extract: () => l.filter(Boolean),
+      extract: (excludeBlankLines = true) =>
+        excludeBlankLines ? l.filter(Boolean) : l,
       map: (fn: Fn) => l.map(fn),
     }
   );
