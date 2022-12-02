@@ -1,39 +1,20 @@
 import { readLines } from "../../utils.ts";
 
-const example1: () => string = () => {
-  return (
-    `1000
-2000
-3000
-
-4000
-
-5000
-6000
-
-7000
-8000
-9000
-
-10000`
-  );
+type GroupType = {
+  group: number;
+  items: number[];
+  count: number;
+  sum: number;
 };
 
 async function challenge() {
   const text = await Deno.readTextFile("./input.txt");
-  // const text = example1();
-  const structure = readLines(text).extract(false);
+  const lines = readLines(text).extract(false);
 
-  type GroupType = {
-    group: number;
-    items: number[];
-    count: number;
-    sum: number;
-  };
   const result: GroupType[] = [];
   let groupNumber = 0;
 
-  structure.forEach((line) => {
+  lines.forEach((line) => {
     if (line === "") {
       groupNumber++;
     } else {
