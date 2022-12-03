@@ -4,7 +4,7 @@
   https://adventofcode.com/2022/day/3
 */
 
-import { readLines } from "../../utils.ts";
+import { chars, chunk, readLines } from "../../utils.ts";
 
 async function part1() {
   const text = await Deno.readTextFile("./input.txt");
@@ -22,24 +22,6 @@ async function part1() {
   console.log("Part 1", sum);
 }
 
-async function part2() {
-  const text = await Deno.readTextFile("./input.txt");
-  const lines = readLines(text).extract();
-  const result = [];
-  for (let i = 2; i <= lines.length; i += 3) {
-    const group = [
-      lines[i - 2].split(""),
-      lines[i - 1].split(""),
-      lines[i].split(""),
-    ];
-    const [itemType] = group.reduce((a, b) => a.filter((c) => b.includes(c)));
-    const priority = priorities[itemType];
-    result.push(priority);
-  }
-  const sum = result.reduce((a, b) => a + b, 0);
-  console.log("Part 2", sum);
-}
-
 const uppercase = Array(26).fill(0).reduce((acc, _, index) => ({
   ...acc,
   [String.fromCharCode(65 + index)]: index + 27,
@@ -50,6 +32,23 @@ const lowercase = Array(26).fill(0).reduce((acc, _, index) => ({
 }), {});
 
 const priorities = { ...lowercase, ...uppercase };
+
+async function part2() {
+  const prio = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(
+    "",
+  );
+  const lines = await Deno.readTextFile("./input.txt").then((lines) =>
+    lines.split(chars.newLine)
+  );
+  const result = chunk(lines, 3).map((group) => {
+    const items = group.map((x) => x.split(""));
+    const [itemType] = items.reduce((a, b) => a.filter((c) => b.includes(c)));
+    return prio.indexOf(itemType) + 1;
+  });
+
+  const sum = result.reduce((a, b) => a + b, 0);
+  console.log("Part 2", sum);
+}
 
 // ---------------------------------------------------------------
 part1();

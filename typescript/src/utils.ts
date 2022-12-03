@@ -1,3 +1,7 @@
+export const chars = {
+  newLine: /\r?\n/,
+};
+
 export const lines = (x: string) => {
   return x.split(/\r?\n/);
 };
@@ -46,3 +50,10 @@ export const breadthFirstSearch: (
 
   return visited;
 };
+
+// TODO: add generic
+export const chunk = (arr: string[], size: number) =>
+  Array.from(
+    { length: Math.ceil(arr.length / size) },
+    (_: string, i: number) => arr.slice(i * size, i * size + size),
+  );
