@@ -2,16 +2,12 @@ const getMarker = async (packetSize = 4) => {
   const text = await Deno.readTextFile("./input.txt");
   const input = text.split("");
 
-  let marker = 0;
-  for (let start = 0; start < input.length; start++) {
-    const window = input.slice(start, start + packetSize);
-    const hasDuplicate = [...new Set(window)].length !== window.length;
-    if (!hasDuplicate) {
-      marker = start + (packetSize - 1);
-      break;
-    }
-  }
-  return marker + 1;
+  const markerIndex = input.findIndex((_, i) => {
+    const window = input.slice(i, i + packetSize);
+    return [...new Set(window)].length === window.length;
+  });
+
+  return markerIndex + packetSize;
 };
 
 // -----------------------------------------------------------------
