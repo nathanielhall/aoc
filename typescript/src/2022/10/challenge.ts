@@ -1,15 +1,16 @@
 import { chunk } from "../../utils.ts";
 
+type Cycle = {
+  num: number;
+  x: number;
+  signalStrength: number;
+  command?: string;
+};
+
 const challenge = async (filename = "./example.txt") => {
   const text = await Deno.readTextFile(filename);
   const lines = text.split("\n").filter(Boolean);
 
-  type Cycle = {
-    num: number;
-    x: number;
-    signalStrength: number;
-    command?: string;
-  };
   const cycles: Cycle[] = [];
 
   cycles.push({ num: 1, x: 1, signalStrength: 1 });
@@ -74,7 +75,11 @@ const part2 = async () => {
 
   const initial = `###.....................................`.split("");
 
-  const writePixel = (acc, cycle, currentIndex) => {
+  const writePixel = (
+    acc: { sprite: string[]; crt: string[] },
+    cycle: Cycle,
+    currentIndex: number,
+  ) => {
     const pixel = acc.sprite.at(currentIndex);
 
     // reset sprite
