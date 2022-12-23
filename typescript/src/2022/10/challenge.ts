@@ -1,6 +1,8 @@
+import { chunk } from "../../utils.ts";
+
 const challenge = async (filename = "./example.txt") => {
   const text = await Deno.readTextFile(filename);
-  const lines = text.split("\n");
+  const lines = text.split("\n").filter(Boolean);
 
   type Cycle = {
     num: number;
@@ -24,7 +26,7 @@ const challenge = async (filename = "./example.txt") => {
         num,
         x: previous.x,
         signalStrength: previous.x * num,
-        command: `${line}: 1`,
+        command: line,
       });
 
       num++;
@@ -33,7 +35,7 @@ const challenge = async (filename = "./example.txt") => {
         num,
         x,
         signalStrength: x * (num),
-        command: `${line}: 2`,
+        command: line,
       });
     } else {
       // noop
@@ -42,20 +44,60 @@ const challenge = async (filename = "./example.txt") => {
         num,
         x: previous.x,
         signalStrength: previous.x * num,
-        command: `${line}: 3`,
+        command: line,
       });
     }
   });
+
+  return cycles;
+};
+
+const part1 = async () => {
+  const cycles = await challenge("./input.txt");
+  console.log("cycles", cycles);
 
   // 20th, 60th, 100th, 140th, 180th, and 220th cycle
   const sum = [20, 60, 100, 140, 180, 220].reduce(
     (a, b) => a + cycles[b - 1].signalStrength,
     0,
   );
-
-  console.log("sum", sum);
+  console.log("Part 1", sum);
 };
 
-// -----------------------------------------------------------------
-// challenge();
-challenge("./input.txt");
+const part2 = async () => {
+  const data = await challenge("./input.txt");
+
+  const cycles = data.filter((x) => x.num !== 1).map((x) => ({
+    ...x,
+    num: x.num - 1,
+  }));
+
+  const initial = `###.....................................`.split("");
+
+  const writePixel = (acc, cycle, currentIndex) => {
+    const pixel = acc.sprite.at(currentIndex);
+
+    // reset sprite
+    const newSprite = Array(40).fill(".");
+    newSprite[cycle.x - 1] = "#";
+    newSprite[cycle.x] = "#";
+    newSprite[cycle.x + 1] = "#";
+
+    if (!pixel) throw new Error("Pixel not found");
+
+    return {
+      sprite: newSprite,
+      crt: [...acc.crt, pixel],
+    };
+  };
+
+  const result = chunk(cycles, 40).flatMap((group) =>
+    group.reduce(writePixel, { sprite: initial, crt: [] })
+  );
+
+  console.log("Part 2", result.map((x) => x.crt.join("")));
+};
+
+// -------------------------------------------------------------------
+await part1();
+await part2();
