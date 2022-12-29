@@ -2,6 +2,15 @@ export const chars = {
   newLine: /\r?\n/,
 };
 
+/** Call incoming function n number of times */
+export const times = (
+  n: number,
+  callback: (value: any, index: number) => void,
+) => Array(n).fill(0).forEach((v, i) => callback(v, i));
+
+export const range: (start: number, end: number) => number[] = (start, end) =>
+  Array.from(Array(end - start + 1).keys()).map((x) => x + start);
+
 export const lines = (x: string) => {
   return x.split(/\r?\n/);
 };
@@ -52,7 +61,7 @@ export const breadthFirstSearch: (
 };
 
 // TODO: add generic
-export const chunk = (arr: string[], size: number) =>
+export const chunk: <T>(arr: T[], size: number) => T[][] = (arr, size) =>
   Array.from(
     { length: Math.ceil(arr.length / size) },
     (_: string, i: number) => arr.slice(i * size, i * size + size),
