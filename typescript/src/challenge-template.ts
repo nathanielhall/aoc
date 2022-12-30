@@ -1,10 +1,14 @@
-const part1 = async (filename = "./example.txt") => {
-  const text = await Deno.readTextFile(filename);
-  const lines = text.split("\n");
+export const challenge = (input: string) => {
+  const lines = input.split("\n");
   console.log("text", lines);
-  return [];
+  return 0;
 };
 
 // -----------------------------------------------------------------
-part1();
-// part1("./input.txt");
+const run = async (filename = "./example.txt") => {
+  const text = await Deno.readTextFile(filename);
+  const result = challenge(text);
+  console.log("result", result);
+};
+// run("./input.txt");
+// run();

@@ -47,8 +47,10 @@ async function main() {
   const path = `./src/${year}/${day}`;
 
   const inputFilename = `${path}/input.txt`;
-  const challengeFilename = `${path}/challenge.ts`;
+  const challengeFilename = `${path}/mod.ts`;
+  const challengeTestFilename = `${path}/mod_test.ts`;
   const templateFilename = `./src/challenge-template.ts`;
+  const testTemplateFilename = `./src/challenge-template-test.ts`;
 
   const doScaffold = await exists(inputFilename) === false;
   if (!doScaffold) {
@@ -64,6 +66,7 @@ async function main() {
 
     await Deno.writeTextFile(inputFilename, data);
     await Deno.copyFile(templateFilename, challengeFilename);
+    await Deno.copyFile(testTemplateFilename, challengeTestFilename);
   } catch (err) {
     console.error("error", err);
   }
