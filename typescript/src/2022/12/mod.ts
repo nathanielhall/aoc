@@ -4,12 +4,12 @@ type Item = {
   steps: number;
   point: Point;
 };
-const part1 = async (filename = "./input.txt") => {
-  const text = await Deno.readTextFile(filename);
-  const grid = text.split("\n").map((x) => x.split(""));
-
+export const challenge = (input: string) => {
+  const grid = input.split("\n").map((x) => x.split(""));
+  let steps = 0;
   let start: Point = [0, 0];
   let end: Point = [0, 0];
+
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       const char = grid[i][j];
@@ -18,7 +18,6 @@ const part1 = async (filename = "./input.txt") => {
     }
   }
 
-  console.log("end", end);
   const queue = new PriorityQueue<Item>((a, b) => b.steps - a.steps);
   queue.enqueue({ steps: 0, point: end });
   // queue.enqueue({ steps: 0, point: start }); // Part 1
@@ -30,7 +29,6 @@ const part1 = async (filename = "./input.txt") => {
 
   while (queue.isEmpty() === false) {
     const item = queue.dequeue();
-    console.log("item", item);
     if (!item) break;
 
     const [x, y] = item.point;
@@ -40,7 +38,7 @@ const part1 = async (filename = "./input.txt") => {
 
     // if (x === end[0] && y === end[1]) { // Part 1
     if (height(grid[x][y]) === 0) {
-      console.log(`STEPS: ${item.steps}`);
+      steps = item.steps;
       break;
     }
 
@@ -48,6 +46,8 @@ const part1 = async (filename = "./input.txt") => {
       queue.enqueue({ steps: item.steps + 1, point: n })
     );
   }
+
+  return steps;
 };
 
 type Point = [number, number];
@@ -58,20 +58,20 @@ const neighbor: ([x, y]: Point, grid: string[][]) => Point[] = (
   const n = grid.length;
   const m = grid[0].length;
 
-  return [[1, 0], [-1, 0], [0, 1], [0, -1]].map(
-    ([dx, dy]) => {
-      const xx = x + dx;
-      const yy = y + dy;
-      const isOutside = (xx < 0 || xx >= n) || (yy < 0 || yy >= m);
-      if (isOutside) return null;
+  const available: Point[] = [];
 
-      // if (height(grid[xx][yy]) <= height(grid[x][y]) + 1) { // Part 1
-      if (height(grid[xx][yy]) >= height(grid[x][y]) - 1) {
-        return [xx, yy] as Point;
-      }
-      return null;
-    },
-  ).filter((x) => x !== null);
+  [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+    const xx = x + dx;
+    const yy = y + dy;
+    const isOutside = (xx < 0 || xx >= n) || (yy < 0 || yy >= m);
+
+    // if (height(grid[xx][yy]) <= height(grid[x][y]) + 1) { // Part 1
+    if (!isOutside && height(grid[xx][yy]) >= height(grid[x][y]) - 1) {
+      available.push([xx, yy]);
+    }
+  });
+
+  return available;
 };
 
 const height = (char: string) => {
@@ -82,7 +82,3 @@ const height = (char: string) => {
   );
   return index;
 };
-
-// -----------------------------------------------------------------
-// part1("./example.txt");
-part1();
