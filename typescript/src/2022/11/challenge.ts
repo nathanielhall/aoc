@@ -36,15 +36,17 @@ const determineThrow = (
   item: number,
   operation: string,
   test: [number, number, number], // [divisor, True, False],
-  modulus: number,
+  modulus: number | null,
 ) => {
   const calc = operation.replaceAll("old", item.toString());
-  const newWorryLevel: number = Math.floor(eval(calc)) % modulus;
+  const newWorryLevel: number = modulus
+    ? Math.floor(eval(calc)) % modulus
+    : Math.floor(eval(calc) / 3);
   const throwTo = newWorryLevel % test[0] === 0 ? test[1] : test[2];
   return { monkeyIndex: throwTo, worryLevel: newWorryLevel };
 };
 
-const performRound = (monkeys: Monkey[]) => {
+const performRound = (monkeys: Monkey[], isPart1 = true) => {
   const modulus = lcm(monkeys.map((m) => m.test[0]));
 
   for (let i = 0; i < monkeys.length; i++) {
@@ -58,7 +60,7 @@ const performRound = (monkeys: Monkey[]) => {
         item,
         monkey.operation,
         monkey.test,
-        modulus,
+        isPart1 ? null : modulus,
       );
 
       const { items: prevItems } = monkeys[monkeyIndex];
@@ -70,7 +72,24 @@ const performRound = (monkeys: Monkey[]) => {
 
 const part1 = async (filename = "./example.txt") => {
   const monkeys = await getMonkeys(filename);
-  times(10000, () => performRound(monkeys));
+  times(20, () => performRound(monkeys));
+
+  monkeys.forEach((x) =>
+    console.log(`Monkey ${x.num} inspected items ${x.inspections} times`)
+  );
+
+  const [first, second] = monkeys.sort((a, b) => b.inspections - a.inspections)
+    .slice(
+      0,
+      2,
+    ).map((x) => x.inspections);
+
+  console.log("Part 1", first * second);
+};
+
+const part2 = async (filename = "./example.txt") => {
+  const monkeys = await getMonkeys(filename);
+  times(10000, () => performRound(monkeys, false));
 
   monkeys.forEach((x) =>
     console.log(`Monkey ${x.num} inspected items ${x.inspections} times`)
@@ -84,10 +103,6 @@ const part1 = async (filename = "./example.txt") => {
 
   console.log("Part 2", first * second);
 };
-
-// -----------------------------------------------------------------
-part1("./input.txt");
-// part1();
 
 /** Greatest common divisor */
 const gcdOverTwo = (x = 0, y = 0): number => {
@@ -110,3 +125,7 @@ const lcmOverTwo = (x?: number, y?: number): number =>
 
 export const lcm = (x?: number | number[], y?: number): number =>
   Array.isArray(x) ? x.reduce((a, n) => lcmOverTwo(a, n), 1) : lcmOverTwo(x, y);
+
+// -----------------------------------------------------------------
+await part1("./input.txt");
+await part2("./input.txt");
