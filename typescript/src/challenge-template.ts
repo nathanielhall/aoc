@@ -5,7 +5,7 @@ export const challenge = (input: string) => {
 };
 
 // -----------------------------------------------------------------
-const run = async (filename = "./example.txt") => {
+const run = async (filename = "./input.txt") => {
   const text = await Deno.readTextFile(filename);
   const result = challenge(text);
   console.log("result", result);
