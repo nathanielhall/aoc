@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.167.0/testing/asserts.ts";
-import { challenge } from "./mod.ts";
+import { part1, part2 } from "./mod.ts";
 
 const input = `[1,1,3,1,1]
 [1,1,5,1,1]
@@ -27,8 +27,13 @@ const input = `[1,1,3,1,1]
 
 Deno.test("Day ", async (test) => {
   await test.step("Part 1: Example", () => {
-    const test = challenge(input);
+    const test = part1(input);
     // console.log("test", test);
-    // assertEquals(challenge(input), 0);
+    assertEquals(test, 6046);
+  });
+  await test.step("Part 2: Example", () => {
+    const test = part2(input);
+    // console.log("test", test);
+    assertEquals(test, 21423);
   });
 });

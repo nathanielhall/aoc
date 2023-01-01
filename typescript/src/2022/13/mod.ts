@@ -30,30 +30,26 @@ const comparePackets: (left: Packet, right: Packet) => number = (
   }
 };
 
-export const challenge = (input: string) => {
+// -----------------------------------------------------------------
+export const part1 = (input: string) => {
   const toPacket = R.pipe(R.split("\n"), R.map(JSON.parse));
 
-  return R.pipe(
+  const result: number[] = R.pipe(
     R.split("\n\n"),
     R.map(toPacket),
     R.map(toPacketComparison),
   )(input);
-};
 
-// -----------------------------------------------------------------
-const part1 = async (filename = "./example.txt") => {
-  const text = await Deno.readTextFile(filename);
-  const result: number[] = challenge(text);
   const sum = result.reduce((acc, curr, idx) => {
     if (curr < 0) return acc + idx + 1;
     return acc;
   }, 0);
 
   console.log("Part 1", sum);
+  return sum;
 };
-const part2 = async (filename = "./example.txt") => {
-  const input = await Deno.readTextFile(filename);
 
+export const part2 = (input: string) => {
   const result = R.pipe(
     R.split("\n"),
     R.filter((x) => x !== ""),
@@ -68,7 +64,10 @@ const part2 = async (filename = "./example.txt") => {
   const lastDivider = result.findLastIndex((x) => x.isDivider) + 1;
 
   console.log(`Part 2`, firstDivider * lastDivider);
+  return firstDivider * lastDivider;
 };
 // ------------------------------------------------------------
-await part1("./input.txt");
-await part2("./input.txt");
+const filename = "./input.txt";
+const text = await Deno.readTextFile(filename);
+part1(text);
+part2(text);
