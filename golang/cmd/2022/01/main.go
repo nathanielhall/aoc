@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -15,7 +15,7 @@ type elf struct {
 
 func main() {
 	// read the entire file & return the byte slice as a string
-	content, err := ioutil.ReadFile("./input.txt")
+	content, err := os.ReadFile("./input.txt")
 	if err != nil {
 		panic(err)
 	}

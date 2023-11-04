@@ -1,4 +1,4 @@
-import { readLines } from "../../utils.ts";
+import { readLines } from "../../utils";
 
 enum Hand {
   Rock = 1,
