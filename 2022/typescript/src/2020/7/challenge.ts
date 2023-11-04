@@ -1,7 +1,7 @@
 // -----------------------------------------------------------
 //  Day 7: Handy Haversacks
 // -----------------------------------------------------------
-import { breadthFirstSearch, readLines } from "../../utils.ts";
+import { breadthFirstSearch, readLines } from "../../utils.js";
 
 const example1: () => string = () => {
   return (

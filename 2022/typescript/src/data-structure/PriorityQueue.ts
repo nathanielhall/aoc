@@ -1,5 +1,5 @@
-import * as util from "./util.ts";
-import Heap from "./Heap.ts";
+import * as util from "./util.js";
+import Heap from "./Heap.js";
 
 export default class PriorityQueue<T> {
   private heap: Heap<T>;

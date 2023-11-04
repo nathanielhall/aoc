@@ -1,4 +1,4 @@
-import * as util from "./util.ts";
+import * as util from "./util.js";
 
 /**
  * Returns the position of the first occurrence of the specified item

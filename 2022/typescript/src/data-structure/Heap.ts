@@ -1,5 +1,5 @@
-import * as collections from "./util.ts";
-import * as arrays from "./arrays.ts";
+import * as collections from "./util.js";
+import * as arrays from "./arrays.js";
 
 export default class Heap<T> {
   /**
