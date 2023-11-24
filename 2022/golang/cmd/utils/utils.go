@@ -1,18 +1,15 @@
 package utils
 
 import (
-	"fmt"
-	"net/http"
+	"bufio"
+	"os"
 )
 
-
-
-type Input struct {
-	value string
-}
-
-func getInput(w http.ResponseWriter, r *http.Request) {
-
-
-
+func ChallengeInput() (*os.File, *bufio.Scanner, error) {
+	file, err := os.Open("input.txt")
+	if err != nil {
+		return nil, nil, err
+	}
+	scanner := bufio.NewScanner(file)
+	return file, scanner, nil
 }

@@ -1,5 +1,5 @@
 //--- Day 8: Handheld Halting ---
-import { readLines } from "../../utils.ts";
+import { readLines } from "../../utils.js";
 
 const example1: () => string = () => {
   return (

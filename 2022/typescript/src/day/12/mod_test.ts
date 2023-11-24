@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.167.0/testing/asserts.ts";
-import { challenge } from "./mod.ts";
+import { challenge } from "./mod.js";
 
 const input = `Sabqponm
 abcryxxl

@@ -1,4 +1,4 @@
-import PriorityQueue from "../../data-structure/PriorityQueue.ts";
+import PriorityQueue from "../../data-structure/PriorityQueue.js";
 
 type Item = {
   steps: number;
