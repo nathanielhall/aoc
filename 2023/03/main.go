@@ -16,7 +16,7 @@ type Point struct {
 
 func main() {
 	input := utils.ReadInput("input.txt")
-	matrix := convertToMatrix(input)
+	matrix := utils.ConvertToMatrix(input)
 	for _, row := range matrix {
 		for _, col := range row {
 			cell := string(col)
@@ -64,7 +64,7 @@ func adjacentPartNums(matrix [][]rune, point Point) (exists bool, num1 string, n
 			}
 		}
 	}
-	x := removeDuplicates(partNums)
+	x := utils.RemoveDuplicates(partNums)
 	if len(x) == 2 {
 		return true, x[0], x[1]
 	} 
@@ -162,31 +162,3 @@ func isSymbol(matrix [][]rune, point Point) bool {
 	return string(p) != "." && unicode.IsDigit(p) == false
 }
 
-func convertToMatrix(stringArray []string) [][]rune {
-	var matrix [][]rune
-	for _, rowStr := range stringArray {
-		row := []rune(rowStr)
-		matrix = append(matrix, row)
-	}
-	return matrix
-}
-func contains[T comparable](s []T, e T) bool {
-    for _, a := range s {
-        if a == e {
-            return true
-        }
-    }
-    return false
-}
-
-func removeDuplicates(input []string) []string {
-	uniqueMap := make(map[string]bool)
-	var result []string
-	for _, num := range input {
-		if !uniqueMap[num] {
-			result = append(result, num)
-			uniqueMap[num] = true
-		}
-	}
-	return result
-}
